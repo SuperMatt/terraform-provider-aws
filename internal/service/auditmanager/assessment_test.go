@@ -204,7 +204,7 @@ func testAccCheckAssessmentDestroy(ctx context.Context, t *testing.T) resource.T
 	}
 }
 
-func testAccCheckAssessmentExists(ctx context.Context, t *testing.T, n string, v *types.Assessment) resource.TestCheckFunc {
+func testAccCheckAssessmentExists(ctx context.Context, t *testing.T, n string, v ...*types.Assessment) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
 		rs, ok := s.RootModule().Resources[n]
 		if !ok {
@@ -219,7 +219,9 @@ func testAccCheckAssessmentExists(ctx context.Context, t *testing.T, n string, v
 			return err
 		}
 
-		*v = *output
+		if len(v) > 0 && v[0] != nil {
+			*v[0] = *output
+		}
 
 		return nil
 	}
