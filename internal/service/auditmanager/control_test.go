@@ -279,7 +279,7 @@ func testAccCheckControlDestroy(ctx context.Context, t *testing.T) resource.Test
 	}
 }
 
-func testAccCheckControlExists(ctx context.Context, t *testing.T, n string, v *types.Control) resource.TestCheckFunc {
+func testAccCheckControlExists(ctx context.Context, t *testing.T, n string, v ...*types.Control) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
 		rs, ok := s.RootModule().Resources[n]
 		if !ok {
@@ -294,7 +294,9 @@ func testAccCheckControlExists(ctx context.Context, t *testing.T, n string, v *t
 			return err
 		}
 
-		*v = *output
+		if len(v) > 0 && v[0] != nil {
+			*v[0] = *output
+		}
 
 		return nil
 	}
