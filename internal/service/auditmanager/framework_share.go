@@ -30,13 +30,17 @@ import (
 )
 
 // @FrameworkResource("aws_auditmanager_framework_share", name="Framework Share")
+// @IdentityAttribute("id")
+// @Testing(importIgnore="status", plannableImportAction="NoOp")
+// @Testing(altRegionTfVars=true)
+// @Testing(preIdentityVersion="v6.41.0")
 func newFrameworkShareResource(_ context.Context) (resource.ResourceWithConfigure, error) {
 	return &frameworkShareResource{}, nil
 }
 
 type frameworkShareResource struct {
 	framework.ResourceWithModel[frameworkShareResourceModel]
-	framework.WithImportByID
+	framework.WithImportByIdentity
 	framework.WithNoUpdate
 }
 

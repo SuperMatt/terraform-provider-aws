@@ -162,7 +162,7 @@ func testAccCheckFrameworkShareDestroy(ctx context.Context, t *testing.T) resour
 	}
 }
 
-func testAccCheckFrameworkShareExists(ctx context.Context, t *testing.T, n string, v *types.AssessmentFrameworkShareRequest) resource.TestCheckFunc {
+func testAccCheckFrameworkShareExists(ctx context.Context, t *testing.T, n string, v ...*types.AssessmentFrameworkShareRequest) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
 		rs, ok := s.RootModule().Resources[n]
 		if !ok {
@@ -177,7 +177,9 @@ func testAccCheckFrameworkShareExists(ctx context.Context, t *testing.T, n strin
 			return err
 		}
 
-		*v = *output
+		if len(v) > 0 && v[0] != nil {
+			*v[0] = *output
+		}
 
 		return nil
 	}
