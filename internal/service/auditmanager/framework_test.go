@@ -200,7 +200,7 @@ func testAccCheckFrameworkDestroy(ctx context.Context, t *testing.T) resource.Te
 	}
 }
 
-func testAccCheckFrameworkExists(ctx context.Context, t *testing.T, n string, v *types.Framework) resource.TestCheckFunc {
+func testAccCheckFrameworkExists(ctx context.Context, t *testing.T, n string, v ...*types.Framework) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
 		rs, ok := s.RootModule().Resources[n]
 		if !ok {
@@ -215,7 +215,9 @@ func testAccCheckFrameworkExists(ctx context.Context, t *testing.T, n string, v 
 			return err
 		}
 
-		*v = *output
+		if len(v) > 0 && v[0] != nil {
+			*v[0] = *output
+		}
 
 		return nil
 	}

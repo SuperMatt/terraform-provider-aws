@@ -33,13 +33,15 @@ import (
 
 // @FrameworkResource("aws_auditmanager_framework", name="Framework")
 // @Tags(identifierAttribute="arn")
+// @IdentityAttribute("id")
+// @Testing(preIdentityVersion="v6.41.0")
 func newFrameworkResource(_ context.Context) (resource.ResourceWithConfigure, error) {
 	return &frameworkResource{}, nil
 }
 
 type frameworkResource struct {
 	framework.ResourceWithModel[frameworkResourceModel]
-	framework.WithImportByID
+	framework.WithImportByIdentity
 }
 
 func (r *frameworkResource) Schema(ctx context.Context, request resource.SchemaRequest, response *resource.SchemaResponse) {
